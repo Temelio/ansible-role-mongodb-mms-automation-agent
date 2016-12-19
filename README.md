@@ -47,7 +47,42 @@ make test-vagrant
 ### Default role variables
 
 ``` yaml
+# General
+mongodb_mms_auto_agent_python_binary: "{{ _mongodb_mms_auto_agent_python_binary | default('/usr/bin/python2.7') }}"
+
+# Packages
+mongodb_mms_auto_agent_get_package_from_url: True
+mongodb_mms_auto_agent_package_checksum: None
+mongodb_mms_auto_agent_manager_url: "{{ _mongodb_mms_auto_agent_manager_url | default('') }}"
+mongodb_mms_auto_agent_package_name: "{{ _mongodb_mms_auto_agent_package_name }}"
+mongodb_mms_auto_agent_package_path: "{{ mongodb_mms_auto_agent_base_folders_paths.tmp }}/{{ mongodb_mms_auto_agent_package_name }}"
+mongodb_mms_auto_agent_package_url: "{{ mongodb_mms_auto_agent_manager_url }}/download/agent/automation/{{ mongodb_mms_auto_agent_package_name }}"
+mongodb_mms_auto_agent_package_state: 'present'
+
+# Paths
+mongodb_mms_auto_agent_base_folders_paths:
+  initd: "{{ _mongodb_mms_auto_agent_os_base_initd_path }}"
+  tmp: "{{ _mongodb_mms_auto_agent_os_base_tmp_path }}"
+
+# Services management
+mongodb_mms_auto_agent_service_name: "{{ _mongodb_mms_auto_agent_service_name }}"
+mongodb_mms_auto_agent_service_state: 'started'
+mongodb_mms_auto_agent_service_enabled: True
+mongodb_mms_auto_agent_manage_hugepage_settings: True
 ```
+
+## How ...
+
+### Manage hugepage kernel settings with MongoDB recommendation
+
+By default, this role manage these settings to set MongoDB recommendation:
+* /sys/kernel/mm/transparent_hugepage/enable: never
+* /sys/kernel/mm/transparent_hugepage/defrag: never
+
+It's a new init.d service configured to start before MongoDB instances.
+
+If you want to turn off this feature, just set mongodb_manage_hugepage_settings
+to False.
 
 ## Dependencies
 

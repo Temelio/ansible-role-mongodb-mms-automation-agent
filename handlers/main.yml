@@ -2,3 +2,9 @@
 
 # Handlers main file for mongodb-mms-automation-agent role
 
+- name: 'HANDLER | Restart disable-transparent-hugepages service'
+  become: True
+  service:
+    name: 'disable-transparent-hugepages'
+    state: 'restarted'
+  when: "{{ mongodb_mms_auto_agent_service_enabled == True }}"

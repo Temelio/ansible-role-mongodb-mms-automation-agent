@@ -2,3 +2,29 @@
 
 # Defaults vars file for mongodb-mms-automation-agent role
 
+# Use to test syntax and feature without configure an OPS Manager instance
+# Set to false on public testing
+mongodb_mms_auto_agent_install_package: True
+
+# General
+mongodb_mms_auto_agent_python_binary: "{{ _mongodb_mms_auto_agent_python_binary | default('/usr/bin/python2.7') }}"
+
+# Packages
+mongodb_mms_auto_agent_get_package_from_url: True
+mongodb_mms_auto_agent_package_checksum: None
+mongodb_mms_auto_agent_manager_url: "{{ _mongodb_mms_auto_agent_manager_url | default('') }}"
+mongodb_mms_auto_agent_package_name: "{{ _mongodb_mms_auto_agent_package_name }}"
+mongodb_mms_auto_agent_package_path: "{{ mongodb_mms_auto_agent_base_folders_paths.tmp }}/{{ mongodb_mms_auto_agent_package_name }}"
+mongodb_mms_auto_agent_package_url: "{{ mongodb_mms_auto_agent_manager_url }}/download/agent/automation/{{ mongodb_mms_auto_agent_package_name }}"
+mongodb_mms_auto_agent_package_state: 'present'
+
+# Paths
+mongodb_mms_auto_agent_base_folders_paths:
+  initd: "{{ _mongodb_mms_auto_agent_os_base_initd_path }}"
+  tmp: "{{ _mongodb_mms_auto_agent_os_base_tmp_path }}"
+
+# Services management
+mongodb_mms_auto_agent_service_name: "{{ _mongodb_mms_auto_agent_service_name }}"
+mongodb_mms_auto_agent_service_state: 'started'
+mongodb_mms_auto_agent_service_enabled: True
+mongodb_mms_auto_agent_manage_hugepage_settings: True

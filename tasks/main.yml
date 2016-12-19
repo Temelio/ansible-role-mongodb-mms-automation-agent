@@ -7,3 +7,32 @@
   tags:
     - 'role::mongodb-mms-automation-agent'
     - 'role::mongodb-mms-automation-agent::init'
+    - 'role::mongodb-mms-automation-agent::install'
+
+
+- name: 'INSTALL | Manage package download from OPS Manager instance'
+  include: "{{ role_path }}/tasks/manage_download_package_from_url.yml"
+  when:
+    - "{{ mongodb_mms_auto_agent_get_package_from_url }}"
+    - "{{ mongodb_mms_auto_agent_install_package == True }}"
+  tags:
+    - 'role::mongodb-mms-automation-agent'
+    - 'role::mongodb-mms-automation-agent::install'
+
+
+- name: 'INSTALL | Manage installation tasks for your OS family'
+  become: True
+  include: "{{ role_path }}/tasks/install_{{ ansible_os_family | lower }}.yml"
+  when:
+    - "{{ mongodb_mms_auto_agent_install_package == True }}"
+  tags:
+    - 'role::mongodb-mms-automation-agent'
+    - 'role::mongodb-mms-automation-agent::install'
+
+
+- name: 'CONFIG | Manage services'
+  become: True
+  include: "{{ role_path }}/tasks/manage_services.yml"
+  tags:
+    - 'role::mongodb-mms-automation-agent'
+    - 'role::mongodb-mms-automation-agent::config'

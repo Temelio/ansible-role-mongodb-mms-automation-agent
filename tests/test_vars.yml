@@ -1,0 +1,4 @@
+---
+
+# Not use a public MongoDB OPS Manager instance to test the package installation
+mongodb_mms_auto_agent_install_package: "{{ (lookup('env', 'TRAVIS') == 'true') | ternary(False, True) }}"
