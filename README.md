@@ -77,7 +77,8 @@ mongodb_mms_auto_agent_manage_hugepage_settings: True
 
 You need to set these environment variables:
 * MONGODB_MMS_AUTO_AGENT_INSTALL
-* MONGODB_MMS_AUTO_AGENT_CHECKSUM
+* MONGODB_MMS_AUTO_AGENT_CHECKSUM_TYPE
+* MONGODB_MMS_AUTO_AGENT_CHECKSUM_VALUE
 * MONGODB_MMS_AUTO_AGENT_MANAGER_URL
 
 ### Manage hugepage kernel settings with MongoDB recommendation
