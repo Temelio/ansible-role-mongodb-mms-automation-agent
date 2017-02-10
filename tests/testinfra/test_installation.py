@@ -1,6 +1,7 @@
 """
 Role tests
 """
+import os
 import pytest
 
 # To run all the tests on given docker images:
@@ -38,6 +39,9 @@ def test_automation_agent_service_state(Service):
     Test automation agent initd service state
     """
 
+    if os.environ['MONGODB_MMS_AUTO_AGENT_INSTALL'] == 'false':
+        pytest.skip('Not apply to this test environment')
+
     service = Service('mongodb-mms-automation-agent')
 
     assert service.is_enabled
@@ -66,6 +70,9 @@ def test_agent_configuration_file(File):
     Test agent configuration file management
     """
 
+    if os.environ['MONGODB_MMS_AUTO_AGENT_INSTALL'] == 'false':
+        pytest.skip('Not apply to this test environment')
+
     service_file = File('/etc/mongodb-mms/automation-agent.config')
 
     assert service_file.exists
@@ -79,6 +86,9 @@ def test_data_directory(File):
     """
     Test data directory management
     """
+
+    if os.environ['MONGODB_MMS_AUTO_AGENT_INSTALL'] == 'false':
+        pytest.skip('Not apply to this test environment')
 
     service_file = File('/data')
 
