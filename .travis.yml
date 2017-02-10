@@ -16,6 +16,7 @@ python:
 env:
   global:
     - ANSIBLE_ROLES_PATH="${TRAVIS_BUILD_DIR%/*/*}"
+    - MONGODB_MMS_AUTO_AGENT_INSTALL=false
 
   matrix:
     - TOXENV='py27-ansible20'
