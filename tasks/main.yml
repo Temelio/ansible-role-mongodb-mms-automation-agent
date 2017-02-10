@@ -30,6 +30,26 @@
     - 'role::mongodb-mms-automation-agent::install'
 
 
+- name: 'INSTALL | Manage data folder'
+  become: True
+  include: "{{ role_path }}/tasks/manage_data_folder.yml"
+  when:
+    - "{{ mongodb_mms_auto_agent_install_package == True }}"
+  tags:
+    - 'role::mongodb-mms-automation-agent'
+    - 'role::mongodb-mms-automation-agent::install'
+
+
+- name: 'CONFIG | Manage configuration tasks'
+  become: True
+  include: "{{ role_path }}/tasks/manage_configuration.yml"
+  when:
+    - "{{ mongodb_mms_auto_agent_install_package == True }}"
+  tags:
+    - 'role::mongodb-mms-automation-agent'
+    - 'role::mongodb-mms-automation-agent::config'
+
+
 - name: 'CONFIG | Manage services'
   become: True
   include: "{{ role_path }}/tasks/manage_services.yml"

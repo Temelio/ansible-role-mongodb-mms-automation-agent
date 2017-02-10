@@ -6,3 +6,4 @@
   apt:
     deb: "{{ mongodb_mms_auto_agent_package_path }}"
     state: "{{ mongodb_mms_auto_agent_package_state }}"
+  notify: 'HANDLER | Restart mongodb-mms-automation-agent service'

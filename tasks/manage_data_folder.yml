@@ -1,0 +1,9 @@
+---
+
+- name: 'INSTALL | Manage data folder'
+  file:
+    path: "{{ mongodb_mms_auto_agent_data_path }}"
+    state: 'directory'
+    owner: "{{ mongodb_mms_auto_agent_user }}"
+    group: "{{ mongodb_mms_auto_agent_group }}"
+    mode: '0700'

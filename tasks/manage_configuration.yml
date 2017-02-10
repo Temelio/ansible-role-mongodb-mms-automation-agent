@@ -1,0 +1,12 @@
+---
+
+# Tasks about MongoDB MMS automation agent configuration
+#==============================================================================
+
+- name: 'CONFIG | Manage configuration file'
+  template:
+    src: "{{ role_path }}/templates/automation-agent.config.j2"
+    dest: "{{ mongodb_mms_auto_agent_base_folders_paths.etc }}/automation-agent.config"
+    owner: "{{ mongodb_mms_auto_agent_user }}"
+    group: "{{ mongodb_mms_auto_agent_group }}"
+    mode: '0500'
