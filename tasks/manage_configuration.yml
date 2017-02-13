@@ -10,3 +10,4 @@
     owner: "{{ mongodb_mms_auto_agent_user }}"
     group: "{{ mongodb_mms_auto_agent_group }}"
     mode: '0500'
+  notify: 'HANDLER | Restart mongodb-mms-automation-agent service'
