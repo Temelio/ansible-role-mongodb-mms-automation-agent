@@ -56,6 +56,7 @@ mongodb_mms_auto_agent_data_path: '/data'
 mongodb_mms_auto_agent_user: 'mongodb'
 mongodb_mms_auto_agent_group: 'mongodb'
 mongodb_mms_auto_agent_python_binary: "{{ _mongodb_mms_auto_agent_python_binary | default('/usr/bin/python2.7') }}"
+mongodb_mms_auto_agent_force_curl_usage: False
 
 # Packages
 mongodb_mms_auto_agent_get_package_from_url: True

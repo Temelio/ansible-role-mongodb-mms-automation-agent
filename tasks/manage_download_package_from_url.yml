@@ -16,16 +16,18 @@
     dest: "{{ mongodb_mms_auto_agent_package_path }}"
     checksum: "{{ mongodb_mms_auto_agent_package_checksum.type }}:{{ mongodb_mms_auto_agent_package_checksum.value }}"
   register: 'mongodb_mms_auto_agent_check_install_with_module'
-  when: "{{
-    (
-      (mongodb_mms_auto_agent_check_python_version.stderr != '')
-      and (mongodb_mms_auto_agent_check_python_version.stderr.replace('Python ', '') | version_compare('2.7.9', '>='))
-    )
-    or (
-      (mongodb_mms_auto_agent_check_python_version.stdout != '')
-      and (mongodb_mms_auto_agent_check_python_version.stdout.replace('Python ', '') | version_compare('2.7.9', '>='))
-    )
-  }}"
+  when:
+    - "{{
+        (
+          (mongodb_mms_auto_agent_check_python_version.stderr != '')
+          and (mongodb_mms_auto_agent_check_python_version.stderr.replace('Python ', '') | version_compare('2.7.9', '>='))
+        )
+        or (
+          (mongodb_mms_auto_agent_check_python_version.stdout != '')
+          and (mongodb_mms_auto_agent_check_python_version.stdout.replace('Python ', '') | version_compare('2.7.9', '>='))
+        )
+      }}"
+    - "{{ not mongodb_mms_auto_agent_force_curl_usage }}"
 
 
 - name: 'INSTALL | GET PACKAGE FROM URL | Check if file already exists'
