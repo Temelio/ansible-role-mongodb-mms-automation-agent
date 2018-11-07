@@ -1,0 +1,25 @@
+---
+
+# Role tests
+
+- name: 'Converge | Prerequisites tasks'
+  hosts: 'all'
+  gather_facts: False
+  tasks:
+    - name: 'PREREQUISITES | APT | Do an apt-get update'
+      become: True
+      raw: 'apt-get update -qq'
+      changed_when: False
+    - name: 'PREREQUISITES | APT | Install python 2.7'
+      become: True
+      raw: 'apt-get install -qq python2.7'
+      changed_when: False
+
+
+- name: 'Converge | Main tasks'
+  hosts: 'all'
+  roles:
+    - role: "ansible-role-mongodb-mms-automation-agent"
+  vars:
+    _mongodb_mms_auto_agent_manager_url: 'https://SET_YOUR_MMS_URL/'
+    _mongodb_mms_auto_agent_package_name: 'mongodb-mms-automation-agent-manager_SET_YOUR_VERSION_amd64.ubuntu1604.deb'

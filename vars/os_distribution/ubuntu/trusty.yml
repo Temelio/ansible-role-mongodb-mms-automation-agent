@@ -2,4 +2,37 @@
 
 # Specific Trusty values
 
+_is_initd_managed_system: True
+_is_systemd_managed_system: False
+
 _mongodb_mms_auto_agent_package_name: 'mongodb-mms-automation-agent-manager_latest_amd64.deb'
+
+mongodb_mms_auto_agent_init_dest: '/etc/init.d/mms-automation-agent.service'
+mongodb_mms_auto_agent_init_owner: 'root'
+mongodb_mms_auto_agent_init_group: 'root'
+mongodb_mms_auto_agent_init_mode: '0755'
+
+mongodb_mms_auto_agent_paths:
+  dirs:
+    config:
+      path: '/etc/mongodb-mms'
+    log:
+      path: '/var/log/mongodb'
+    pid:
+      path: '/var/run/mongodb_mms_auto_agent'
+    root:
+      path: "{{ mongodb_mms_auto_agent_user.home }}"
+    service:
+      path: '/etc/init.d/'
+  files:
+    main_config:
+      path: '/etc/mongodb-mms/automation-agent.config'
+      owner: "{{ mongodb_mms_auto_agent_user.name }}"
+      group: "{{ mongodb_mms_auto_agent_group.name }}"
+      mode: '0750'
+    lock:
+      path: '/var/lock/mongodb-mms-auto-agent'
+    log:
+      path: '/var/log/mongodb-mms/mongodb_mms_auto_agent.log'
+    pid:
+      path: '/var/lib/mongodb-mms-automation/automation-agent.pid'

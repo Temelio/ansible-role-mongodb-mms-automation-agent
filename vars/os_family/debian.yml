@@ -1,6 +1,9 @@
+---
+
 # Path variables
 _mongodb_mms_auto_agent_os_base_etc_path: '/etc'
 _mongodb_mms_auto_agent_os_base_initd_path: '/etc/init.d'
+_mongodb_mms_auto_agent_os_base_systemd_path: '/etc/systemd/system'
 _mongodb_mms_auto_agent_os_base_tmp_path: '/tmp'
 
 # Service management

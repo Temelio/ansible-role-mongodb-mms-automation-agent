@@ -6,40 +6,31 @@ Install mongodb-mms-automation-agent package.
 
 ## Requirements
 
-This role requires Ansible 2.0 or higher,
+This role requires Ansible 2.4, 2.5, 2.6,
 and platform requirements are listed in the metadata file.
 
 ## Testing
 
-This role has some testing methods.
+This role use [Molecule](https://github.com/metacloud/molecule/) to run tests.
 
-To use locally testing methods, you need to install Docker and/or Vagrant and Python requirements:
+Local and Travis tests run tests on Docker by default.
+See molecule documentation to use other backend.
 
-* Create and activate a virtualenv
-* Install requirements
+Currently, tests are done on:
+- Ubuntu Xenial
 
-```
-pip install -r requirements_dev.txt
-```
+and use:
+- Ansible 2.4.x
+- Ansible 2.5.x
+- Ansible 2.5.x
 
-### Automatically with Travis
 
-Tests runs automatically on Travis on push, release, pr, ... using docker testing containers
+unning tests
 
-### Locally with Docker
-
-You can use Docker to run tests on ephemeral containers.
-
-```
-make test-docker
-```
-
-### Locally with Vagrant
-
-You can use Vagrant to run tests on virtual machines.
+#### Using Docker driver
 
 ```
-make test-vagrant
+$ tox
 ```
 
 ## Role Variables
@@ -47,6 +38,29 @@ make test-vagrant
 ### Default role variables
 
 ``` yaml
+# Defaults vars file for mongodb-mms-automation-agent role
+
+is_initd_managed_system: "{{ _is_initd_managed_system | default(False) }}"
+is_systemd_managed_system: "{{ _is_systemd_managed_system | default(False) }}"
+
+mongodb_mms_auto_agent_service_systemd:
+  - src: "{{ role_path }}/templates/services/systemd.service.j2"
+    dest: "{{ mongodb_mms_auto_agent_base_folders_paths.systemd }}/{{ mongodb_mms_auto_agent_service_name }}.service"
+    options:
+      Unit:
+        Description: 'MongoDB Automation Agent for OPS manager'
+        Wants: 'network.target'
+      Service:
+        Type: 'simple'
+        User: "{{ mongodb_mms_auto_agent_user }}"
+        PIDFile: "{{ mongodb_mms_auto_agent_base_folders_paths.pid }}"
+        ExecStart: "/opt/mongodb-mms-automation/bin/{{ mongodb_mms_auto_agent_service_name }} -f {{ mongodb_mms_auto_agent_base_folders_paths.etc}}/automation-agent.config"
+      Install:
+        WantedBy: 'multi-user.target'
+mongodb_mms_auto_agent_service_initd:
+  - src: "{{ role_path }}/templates/init.d.j2"
+    dest: "{{ mongodb_mms_auto_agent_base_folders_paths.initd }}/{{ mongodb_mms_auto_agent_service_name }}"
+
 # Use to test syntax and feature without configure an OPS Manager instance
 # Set to false on public testing
 mongodb_mms_auto_agent_install_package: True
@@ -71,7 +85,9 @@ mongodb_mms_auto_agent_package_state: 'present'
 mongodb_mms_auto_agent_base_folders_paths:
   etc: "{{ _mongodb_mms_auto_agent_os_base_etc_path }}/mongodb-mms"
   initd: "{{ _mongodb_mms_auto_agent_os_base_initd_path }}"
+  systemd: "{{ _mongodb_mms_auto_agent_os_base_systemd_path }}"
   tmp: "{{ _mongodb_mms_auto_agent_os_base_tmp_path }}"
+  pid: '/var/lib/mongodb-mms-automation/automation-agent.pid'
 
 # Configuration
 mongodb_mms_auto_agent_group_id: ''
@@ -82,7 +98,6 @@ mongodb_mms_auto_agent_base_url: "{{ mongodb_mms_auto_agent_manager_url }}"
 mongodb_mms_auto_agent_service_name: "{{ _mongodb_mms_auto_agent_service_name }}"
 mongodb_mms_auto_agent_service_state: 'started'
 mongodb_mms_auto_agent_service_enabled: True
-mongodb_mms_auto_agent_manage_hugepage_settings: True
 ```
 
 ## How ...
@@ -91,26 +106,10 @@ mongodb_mms_auto_agent_manage_hugepage_settings: True
 
 You need to set these environment variables:
 * MONGODB_MMS_AUTO_AGENT_INSTALL
-* MONGODB_MMS_AUTO_AGENT_CHECKSUM_TYPE
 * MONGODB_MMS_AUTO_AGENT_MANAGER_URL
+* MONGODB_MMS_AUTO_AGENT_PACKAGE_NAME
 * MONGODB_MMS_AUTO_AGENT_GROUP_ID
 * MONGODB_MMS_AUTO_AGENT_API_KEY
-
-To define checksum, use this environment var suffixed with ansible_distribution_release uppercased
-* MONGODB_MMS_AUTO_AGENT_CHECKSUM_VALUE_
-
-Ex: MONGODB_MMS_AUTO_AGENT_CHECKSUM_VALUE_TRUSTY
-
-### Manage hugepage kernel settings with MongoDB recommendation
-
-By default, this role manage these settings to set MongoDB recommendation:
-* /sys/kernel/mm/transparent_hugepage/enable: never
-* /sys/kernel/mm/transparent_hugepage/defrag: never
-
-It's a new init.d service configured to start before MongoDB instances.
-
-If you want to turn off this feature, just set mongodb_manage_hugepage_settings
-to False.
 
 ## Dependencies
 
@@ -129,6 +128,5 @@ MIT
 ## Author Information
 
 Alexandre Chaussier (for Temelio company)
+update: Lise Machetel (for Temelio company)
 - http://www.temelio.com
-- alexandre.chaussier [at] temelio.com
-
