@@ -11,29 +11,6 @@ pytestmark = pytest.mark.docker_images(
 )
 
 
-def test_hugepage_service_file(File):
-    """
-    Test hugepage initd service file management
-    """
-
-    service_file = File('/etc/init.d/disable-transparent-hugepages')
-
-    assert service_file.exists
-    assert service_file.is_file
-    assert service_file.user == 'root'
-
-
-def test_hugepage_service_state(Service):
-    """
-    Test hugepage initd service state
-    """
-
-    service = Service('disable-transparent-hugepages')
-
-    assert service.is_enabled
-    assert service.is_running
-
-
 def test_automation_agent_service_state(Service):
     """
     Test automation agent initd service state
@@ -46,23 +23,6 @@ def test_automation_agent_service_state(Service):
 
     assert service.is_enabled
     assert service.is_running
-
-
-def test_hugepage_setting_value(SystemInfo, File):
-    """
-    Test if kernel hugepage setting have recommended value
-    """
-
-    if SystemInfo.distribution != 'ubuntu':
-        pytest.skip('Not apply to %s' % SystemInfo.distribution)
-
-    setting_paths = [
-        '/sys/kernel/mm/transparent_hugepage/enabled',
-        '/sys/kernel/mm/transparent_hugepage/defrag',
-    ]
-
-    for setting_path in setting_paths:
-        assert '[never]' in File(setting_path).content_string
 
 
 def test_agent_configuration_file(File):

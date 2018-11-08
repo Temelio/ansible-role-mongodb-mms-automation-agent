@@ -1,16 +1,15 @@
 ---
 
 galaxy_info:
-  author: 'Alexandre Chaussier'
+  author: 'Alexandre Chaussier, L Machetel'
   description: 'Ansible role to install and configure a MongoDB MMS automation agent'
   company: 'Temelio (http://www.temelio.com)'
   license: 'MIT'
-  min_ansible_version: '2.0'
+  min_ansible_version: '2.4'
   github_branch: 'master'
   platforms:
     - name: 'Ubuntu'
       versions:
-        - 'trusty'
         - 'xenial'
   galaxy_tags:
     - 'system'
