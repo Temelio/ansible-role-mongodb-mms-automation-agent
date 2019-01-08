@@ -1,0 +1,8 @@
+---
+
+# Specific Bionic values
+
+_is_initd_managed_system: false
+_is_systemd_managed_system: true
+
+_mongodb_mms_auto_agent_package_name: 'mongodb-mms-automation-agent-manager_latest_amd64.ubuntu1604.deb'

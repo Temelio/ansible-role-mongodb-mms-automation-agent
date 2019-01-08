@@ -2,14 +2,6 @@
 
 # Not use a public MongoDB OPS Manager instance to test the package installation
 mongodb_mms_auto_agent_install_package: "{{ lookup('env', 'MONGODB_MMS_AUTO_AGENT_INSTALL') | bool }}"
-mongodb_mms_auto_agent_package_checksum:
-mongodb_mms_auto_agent_package_checksum:
-  type: "{{ lookup('env', 'MONGODB_MMS_AUTO_AGENT_CHECKSUM_TYPE') | default(None) }}"
-  value: "{{
-    lookup(
-      'env',
-      'MONGODB_MMS_AUTO_AGENT_CHECKSUM_VALUE_' ~ (ansible_distribution_release | upper))
-    | default(None) }}"
 mongodb_mms_auto_agent_manager_url: "{{ lookup('env', 'MONGODB_MMS_AUTO_AGENT_MANAGER_URL') | default('') }}"
 mongodb_mms_auto_agent_group_id: "{{ lookup('env', 'MONGODB_MMS_AUTO_AGENT_GROUP_ID') | default('') }}"
 mongodb_mms_auto_agent_api_key: "{{ lookup('env', 'MONGODB_MMS_AUTO_AGENT_API_KEY') | default('') }}"
