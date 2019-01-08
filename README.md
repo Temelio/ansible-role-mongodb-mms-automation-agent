@@ -18,6 +18,7 @@ See molecule documentation to use other backend.
 
 Currently, tests are done on:
 - Ubuntu Xenial
+- Ubuntu Bionic
 
 and use:
 - Ansible 2.4.x
@@ -74,7 +75,6 @@ mongodb_mms_auto_agent_force_curl_usage: False
 
 # Packages
 mongodb_mms_auto_agent_get_package_from_url: True
-mongodb_mms_auto_agent_package_checksum: None
 mongodb_mms_auto_agent_manager_url: "{{ _mongodb_mms_auto_agent_manager_url | default('') }}"
 mongodb_mms_auto_agent_package_name: "{{ _mongodb_mms_auto_agent_package_name }}"
 mongodb_mms_auto_agent_package_path: "{{ mongodb_mms_auto_agent_base_folders_paths.tmp }}/{{ mongodb_mms_auto_agent_package_name }}"
